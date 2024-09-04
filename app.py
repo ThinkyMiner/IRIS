@@ -91,6 +91,10 @@ def status() -> None:
     print("""
     What would you like me to do for you!""")
 
+
+# make a new fnction that takes the previously produced script and corrects it and runs it indeifnitely 
+# remove the unnecessary loop in the main
+
 def main():
     greet()
     returncode = 1
