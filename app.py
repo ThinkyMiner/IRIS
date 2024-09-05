@@ -21,6 +21,8 @@ def generate_script(context: str) -> str:
     prompt = f"""As an AI assistant, your task is to create a script to accomplish the following: {context}
 
     Break the context into a series of tasks and then generate a scrip to do it using AppleScript, Python, or Bash.
+    If you are asked to open an applicationuse bash script to open the applcation,
+    if then you are asked to do anything in that particular application use apple script to do that task.
 
     Requirements:
     1. Provide ONLY the script code, without any explanations or additional text.
@@ -99,6 +101,7 @@ def main():
     greet()
     returncode = 1
     while True:
+        returncode = 1
         context = get_context()
         if context.lower() == 'exit':
             break

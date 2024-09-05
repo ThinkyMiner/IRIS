@@ -1,0 +1,2 @@
+if you are asked to open an applicationuse bash script to open the applcation
+if then you are asked to do anything in that particular application use apple script to do that task.
