@@ -82,6 +82,19 @@ def execute_script(script: str) -> int:
     else:
         print("Unknown script type. Cannot execute.")
         return 1
+    
+def improve_script(script: str, context:str) -> str:
+    prompt = f""" You are a professional developer and debugger.
+    Now you have to correct this script {script} for the context {context},
+    as the script is not working as expected.
+    Requirements:
+    1. Provide ONLY the script code, without any explanations or additional text.
+    2. The script should be fully functional and ready to run.
+    """
+    response = model.generate_content(prompt)
+    content = response._result.candidates[0].content.parts[0].text
+    print(content)
+    return content
 
 def checkstatus(returncode: int) -> None:
     if returncode == 0:
@@ -100,16 +113,25 @@ def status() -> None:
 def main():
     greet()
     returncode = 1
+    count = 0
     while True:
         returncode = 1
         context = get_context()
         if context.lower() == 'exit':
             break
-        while (returncode != 0):
+        script = generate_script(context)
+        returncode = execute_script(script)
+        checkstatus(returncode)
+        status()
+        while ((returncode != 0 or returncode != 127) and count < 7):
             script = generate_script(context)
             returncode = execute_script(script)
             checkstatus(returncode)
             status()
+            count += 1
+            if count == 7:
+                print("Maximum number of attempts reached. Exiting.")
+                
 
 if __name__ == "__main__":
     main()
